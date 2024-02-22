@@ -7,6 +7,7 @@ import java.time.temporal.Temporal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.persistence.CascadeType;
@@ -15,6 +16,7 @@ import jakarta.persistence.OneToMany;
 
 
 @RegisterForReflection
+@JsonPropertyOrder({ "total", "dataExtrato", "limite" })
 public final class SaldoDTO {
 
     public final Integer total;
