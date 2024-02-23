@@ -10,9 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
 
 
 @RegisterForReflection
@@ -23,13 +20,15 @@ public final class SaldoDTO {
     @JsonProperty("data_extrato")
     public final String dataExtrato;
     public final Integer limite;
-    // @OneToMany(mappedBy = "saldoId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    // public final List<UltimasTransacoes> ultimasTransacoes;
+    @JsonProperty("ultimas_transacoes")
+    public final List<Transacoes> transacoes;
+
  
     public SaldoDTO(Saldo saldo, Temporal ts) {
         this.total = saldo.total;
         this.limite = saldo.limite;
         this.dataExtrato = ts.toString();
+        this.transacoes = saldo.transacoes;
     }
 
     public SaldoDTO(Saldo saldo) {
