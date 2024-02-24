@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -27,9 +28,11 @@ public class Transacoes extends PanacheEntityBase {
     public String descricao;
     @JsonProperty("realizada_em")
     public String realizadaEm;
-    // @JsonIgnore
+    
+    // @Column(name = "saldo_id")
     // public Long saldoId;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     public Saldo saldo;
 
     public Transacoes() {
@@ -42,46 +45,65 @@ public class Transacoes extends PanacheEntityBase {
         this.tipo = tipo;
         this.descricao = descricao;
         this.realizadaEm = realizadaEm;
-        // this.saldoId = saldoId;
     }
 
-    public Transacoes(Transacoes ultimaTransacao) {
-        this.id = ultimaTransacao.id + 1;
-        this.valor = ultimaTransacao.valor;
-        this.tipo = ultimaTransacao.tipo;
-        this.descricao = ultimaTransacao.descricao;
-        this.realizadaEm = ultimaTransacao.realizadaEm;
-        // this.saldoId = ultimaTransacao.saldoId;
+    public Transacoes(Integer valor, String tipo, String descricao, String realizadaEm) {
+        this.valor = valor;
+        this.tipo = tipo;
+        this.descricao = descricao;
+        this.realizadaEm = realizadaEm;
     }
 
-/*     public static void append(List<Transacoes> transacoes, TransacaoRequestDTO transacaoRequest) {
-        Transacoes ultimaTransacao = transacoes.get(0);    //a ideia eh criar uma copia e alterar com o request
-        ultimaTransacao.id = ultimaTransacao.id + 1;
-        ultimaTransacao.valor = transacaoRequest.valor;
-        ultimaTransacao.tipo = transacaoRequest.tipo;
-        ultimaTransacao.descricao = transacaoRequest.descricao;
-        ultimaTransacao.realizadaEm = Instant.now().toString();
-        transacoes.add(0, ultimaTransacao);
-    }
- */
-    public static Transacoes prepend(List<Transacoes> transacoes, TransacaoRequestDTO transacaoRequest) {
-        Transacoes ultimaTransacao = transacoes.get(0);    //a ideia eh criar uma copia e alterar com o request
-        ultimaTransacao.id = ultimaTransacao.id + 1;
-        ultimaTransacao.valor = transacaoRequest.valor;
-        ultimaTransacao.tipo = transacaoRequest.tipo;
-        ultimaTransacao.descricao = transacaoRequest.descricao;
-        ultimaTransacao.realizadaEm = Instant.now().toString();
-        return new Transacoes(ultimaTransacao);
+    /*
+     * public static void append(List<Transacoes> transacoes, TransacaoRequestDTO
+     * transacaoRequest) {
+     * Transacoes ultimaTransacao = transacoes.get(0); //a ideia eh criar uma copia
+     * e alterar com o request
+     * ultimaTransacao.id = ultimaTransacao.id + 1;
+     * ultimaTransacao.valor = transacaoRequest.valor;
+     * ultimaTransacao.tipo = transacaoRequest.tipo;
+     * ultimaTransacao.descricao = transacaoRequest.descricao;
+     * ultimaTransacao.realizadaEm = Instant.now().toString();
+     * transacoes.add(0, ultimaTransacao);
+     * }
+     * 
+     * public static Transacoes prepend(List<Transacoes> transacoes,
+     * TransacaoRequestDTO transacaoRequest) {
+     * Transacoes ultimaTransacao = transacoes.get(0); //a ideia eh criar uma copia
+     * e alterar com o request
+     * ultimaTransacao.id = ultimaTransacao.id + 1;
+     * ultimaTransacao.valor = transacaoRequest.valor;
+     * ultimaTransacao.tipo = transacaoRequest.tipo;
+     * ultimaTransacao.descricao = transacaoRequest.descricao;
+     * ultimaTransacao.realizadaEm = Instant.now().toString();
+     * return new Transacoes(ultimaTransacao);
+     * }
+     * 
+     * public static Transacoes ultimaTransacao(List<Transacoes> transacoes,
+     * TransacaoRequestDTO transacaoRequest) {
+     * Transacoes ultimaTransacao = transacoes.get(0); //a ideia eh criar uma copia
+     * e alterar com o request
+     * ultimaTransacao.id = ultimaTransacao.id + 1;
+     * ultimaTransacao.valor = transacaoRequest.valor;
+     * ultimaTransacao.tipo = transacaoRequest.tipo;
+     * ultimaTransacao.descricao = transacaoRequest.descricao;
+     * ultimaTransacao.realizadaEm = Instant.now().toString();
+     * return ultimaTransacao;
+     * }
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Transacoes))
+            return false;
+        return id != null && id.equals(((Transacoes) o).id);
     }
 
-    public static Transacoes ultimaTransacao(List<Transacoes> transacoes, TransacaoRequestDTO transacaoRequest) {
-        Transacoes ultimaTransacao = transacoes.get(0);    //a ideia eh criar uma copia e alterar com o request
-        ultimaTransacao.id = ultimaTransacao.id + 1;
-        ultimaTransacao.valor = transacaoRequest.valor;
-        ultimaTransacao.tipo = transacaoRequest.tipo;
-        ultimaTransacao.descricao = transacaoRequest.descricao;
-        ultimaTransacao.realizadaEm = Instant.now().toString();
-        return ultimaTransacao;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
 }

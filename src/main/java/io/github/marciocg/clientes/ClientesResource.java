@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import io.quarkus.hibernate.orm.panache.Panache;
 import io.quarkus.logging.Log;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -43,10 +44,6 @@ public class ClientesResource {
             throw new WebApplicationException(Response.Status.fromStatusCode(422));
         }
 
-        // Log.info("== Recebido transacaoRequest:" + transacaoRequest.toString());
-        // Log.info(transacaoRequest.valor);
-        // Log.info(transacaoRequest.tipo);
-
         if (transacaoRequest.tipo.equals("c")) {
             saldoCliente.total += transacaoRequest.valor;
         } else if (transacaoRequest.tipo.equals("d")) {
@@ -62,36 +59,50 @@ public class ClientesResource {
             throw new WebApplicationException(
                     Response.status(422).entity(transacaoRequest.valor + " Saldo insuficiente").build());
         }
-  //TODO: Creio que Transacoes não pode ser uma Entity, modelar ultimas_transacoes sem criar tabela no banco de dados de alguma forma.
-/*
-        Log.info("Lista antes: " + saldoCliente.transacoes.toString());
-        for (Transacoes trn : saldoCliente.transacoes) {
-            System.out.println("x ID " + trn.id);
-            System.out.println("x valor " + trn.valor);
-            System.out.println("x tipo " + trn.tipo);
-            System.out.println("x descricao " + trn.descricao);
-            System.out.println("x saldo_ID " + trn.saldoId);
+        // TODO: Creio que Transacoes não pode ser uma Entity, modelar
+        // ultimas_transacoes sem criar tabela no banco de dados de alguma forma.
+        /*
+         * Log.info("Lista antes: " + saldoCliente.transacoes.toString());
+         * for (Transacoes trn : saldoCliente.transacoes) {
+         * System.out.println("x ID " + trn.id);
+         * System.out.println("x valor " + trn.valor);
+         * System.out.println("x tipo " + trn.tipo);
+         * System.out.println("x descricao " + trn.descricao);
+         * System.out.println("x saldo_ID " + trn.saldoId);
+         * }
+         * 
+         * Integer novoid = saldoCliente.transacoes.get(0).id + 1;
+         * saldoCliente.transacoes.add(0, new Transacoes(novoid, transacaoRequest.valor,
+         * transacaoRequest.tipo, transacaoRequest.descricao, Instant.now().toString(),
+         * saldoCliente.id));
+         * // saldoCliente.transacoes.add(Transacoes.ultimaTransacao(saldoCliente.
+         * transacoes, transacaoRequest));
+         * // saldoCliente.transacoes.add(0, Transacoes.prepend(saldoCliente.transacoes,
+         * transacaoRequest));
+         * // Transacoes.append(saldoCliente.transacoes, transacaoRequest);
+         * Log.info("Lista depois: " + saldoCliente.transacoes.toString());
+         * for (Transacoes trn : saldoCliente.transacoes) {
+         * System.out.println("n ID " + trn.id);
+         * System.out.println("n valor " + trn.valor);
+         * System.out.println("n tipo " + trn.tipo);
+         * System.out.println("n descricao " + trn.descricao);
+         * System.out.println("n saldo_ID " + trn.saldoId);
+         * }
+         * List<Transacoes> guardaTransacoes = new LinkedList<>();
+         * Collections.copy(guardaTransacoes, saldoCliente.transacoes);
+         */
+        if (saldoCliente == null) {
+            try {
+                Integer novoId = saldoCliente.transacoes.get(0).id;
+            } catch (Exception e) {
+                throw new WebApplicationException(Response.Status.EXPECTATION_FAILED);
+            }
         }
 
-        Integer novoid = saldoCliente.transacoes.get(0).id + 1;
-        saldoCliente.transacoes.add(0, new Transacoes(novoid, transacaoRequest.valor, transacaoRequest.tipo, transacaoRequest.descricao, Instant.now().toString(), saldoCliente.id));
-        // saldoCliente.transacoes.add(Transacoes.ultimaTransacao(saldoCliente.transacoes, transacaoRequest));
-        // saldoCliente.transacoes.add(0, Transacoes.prepend(saldoCliente.transacoes, transacaoRequest));
-        // Transacoes.append(saldoCliente.transacoes, transacaoRequest);
-        Log.info("Lista depois: " + saldoCliente.transacoes.toString());
-        for (Transacoes trn : saldoCliente.transacoes) {
-            System.out.println("n ID " + trn.id);
-            System.out.println("n valor " + trn.valor);
-            System.out.println("n tipo " + trn.tipo);
-            System.out.println("n descricao " + trn.descricao);
-            System.out.println("n saldo_ID " + trn.saldoId);
-        }
-        List<Transacoes> guardaTransacoes = new LinkedList<>();
-        Collections.copy(guardaTransacoes, saldoCliente.transacoes);
-*/
-        // Integer novoId = saldoCliente.transacoes.get(0).id;
-        int novoId = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
-        saldoCliente.transacoes.add(0, new Transacoes(novoId, transacaoRequest.valor, transacaoRequest.tipo, transacaoRequest.descricao, Instant.now().toString()));
+        Transacoes novaTransacao = Panache.getEntityManager().merge(new Transacoes(transacaoRequest.valor, transacaoRequest.tipo,
+                transacaoRequest.descricao, Instant.now().toString()));
+
+        saldoCliente.addTransacoes(novaTransacao);
         saldoCliente.persist();
         return TransacaoResponseDTO.of(saldoCliente);
     }

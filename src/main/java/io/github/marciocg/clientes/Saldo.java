@@ -1,5 +1,6 @@
 package io.github.marciocg.clientes;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,11 +22,15 @@ public class Saldo extends PanacheEntity {
     @JsonProperty("ultimas_transacoes")
     @OneToMany(
         mappedBy = "saldo",
-//        cascade = CascadeType.ALL,
+        cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    // @JoinColumn(name = "saldoId")
-    public List<Transacoes> transacoes;
+    public List<Transacoes> transacoes = new LinkedList<>();
+    
+    public void addTransacoes(Transacoes transacao) {
+        this.transacoes.add(0, transacao);
+        transacao.saldo = this;
+    }
     
 }
 
