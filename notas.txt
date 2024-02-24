@@ -7,8 +7,11 @@ https://stackoverflow.com/questions/36107564/jsonrootname-not-working
 
 Anotações úteis do jackson:
 https://www.baeldung.com/jackson-annotations#bd-6-jsonrootname
+ E mais:
+ https://www.logicbig.com/tutorials/misc/jackson/json-type-info-with-logical-type-name.html
 
 Entender como gravar os dados na tabela de transações:
 https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
   E fazer o merge com o Panache:
   https://stackoverflow.com/questions/73178267/panache-equivalent-to-hibernate-merge
+

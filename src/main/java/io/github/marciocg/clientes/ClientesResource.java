@@ -23,9 +23,8 @@ public class ClientesResource {
     @GET
     @Path("/{id}/extrato")
 
-    public SaldoDTO extrato(@PathParam("id") Integer id) {
-        return SaldoDTO.of(getSaldoById(id));
-
+    public ExtratoResponseDTO extrato(@PathParam("id") Integer id) {
+        return ExtratoResponseDTO.of(getSaldoById(id));
     }
 
     @SuppressWarnings("resource")
