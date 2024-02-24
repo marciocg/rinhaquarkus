@@ -28,7 +28,7 @@ public class Transacoes extends PanacheEntityBase {
     public String descricao;
     @JsonProperty("realizada_em")
     public String realizadaEm;
-    
+
     // @Column(name = "saldo_id")
     // public Long saldoId;
     @JsonIgnore
@@ -39,14 +39,6 @@ public class Transacoes extends PanacheEntityBase {
 
     }
 
-    public Transacoes(Integer id, Integer valor, String tipo, String descricao, String realizadaEm) {
-        this.id = id;
-        this.valor = valor;
-        this.tipo = tipo;
-        this.descricao = descricao;
-        this.realizadaEm = realizadaEm;
-    }
-
     public Transacoes(Integer valor, String tipo, String descricao, String realizadaEm) {
         this.valor = valor;
         this.tipo = tipo;
@@ -55,6 +47,16 @@ public class Transacoes extends PanacheEntityBase {
     }
 
     /*
+     * public Transacoes(Integer id, Integer valor, String tipo, String descricao,
+     * String realizadaEm) {
+     * this.id = id;
+     * this.valor = valor;
+     * this.tipo = tipo;
+     * this.descricao = descricao;
+     * this.realizadaEm = realizadaEm;
+     * }
+     * 
+     * 
      * public static void append(List<Transacoes> transacoes, TransacaoRequestDTO
      * transacaoRequest) {
      * Transacoes ultimaTransacao = transacoes.get(0); //a ideia eh criar uma copia

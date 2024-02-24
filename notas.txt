@@ -1,0 +1,14 @@
+Links úteis que ajudaram a entender o funcionamento das coisas
+==============================================================
+
+
+Gerar o "saldo" nos dados de retorno do json no jackson:
+https://stackoverflow.com/questions/36107564/jsonrootname-not-working
+
+Anotações úteis do jackson:
+https://www.baeldung.com/jackson-annotations#bd-6-jsonrootname
+
+Entender como gravar os dados na tabela de transações:
+https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+  E fazer o merge com o Panache:
+  https://stackoverflow.com/questions/73178267/panache-equivalent-to-hibernate-merge

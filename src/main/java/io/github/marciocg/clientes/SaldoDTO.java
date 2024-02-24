@@ -8,11 +8,17 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 
 @RegisterForReflection
+@JsonTypeInfo(use=Id.NAME, include=As.WRAPPER_OBJECT)
+@JsonTypeName("saldo")
 @JsonPropertyOrder({ "total", "dataExtrato", "limite" })
 public final class SaldoDTO {
 
