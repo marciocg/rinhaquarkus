@@ -15,3 +15,8 @@ https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-an
   E fazer o merge com o Panache:
   https://stackoverflow.com/questions/73178267/panache-equivalent-to-hibernate-merge
 
+Resolver o problema do Ryuk negar os testes por causa dos testcontainers (incluído arquivo .env):
+ foi só seguir o que está nessa resposta do post https://stackoverflow.com/a/75110548/2443421 sem precisar setar a primera variável DOCKER_HOST
+
+Resolver o erro de não conseguir fazer bind na porta 8081 de testes:
+https://stackoverflow.com/questions/57095830/how-to-fix-the-error-caused-by-java-net-bindexception-address-already-in-use

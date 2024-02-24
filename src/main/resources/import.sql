@@ -1,9 +1,9 @@
 
-insert into Saldo (id, total, limite) values (1, 0, 100000);
-insert into Saldo (id, total, limite) values (2, 0, 80000);
-insert into Saldo (id, total, limite) values (3, 0, 1000000);
-insert into Saldo (id, total, limite) values (4, 0, 10000000);
-insert into Saldo (id, total, limite) values (5, 0, 500000);
+insert into saldo (id, total, limite) values (1, 0, 100000);
+insert into saldo (id, total, limite) values (2, 0, 80000);
+insert into saldo (id, total, limite) values (3, 0, 1000000);
+insert into saldo (id, total, limite) values (4, 0, 10000000);
+insert into saldo (id, total, limite) values (5, 0, 500000);
 
 --insert into Transacoes (id, valor, tipo, descricao, realizadaEm, saldo_id) values (1, 0, 'c', 'inicial', CURRENT_TIMESTAMP, 1);
 --insert into Transacoes (id, valor, tipo, descricao, realizadaEm, saldo_id) values (2, 0, 'c', 'inicial', CURRENT_TIMESTAMP, 2);

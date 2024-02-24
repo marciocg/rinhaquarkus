@@ -9,8 +9,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
-@Entity
+@Entity(name = "Transacoes")
+@Table(name = "transacoes")
 public class Transacoes extends PanacheEntityBase {
 
     @Id
