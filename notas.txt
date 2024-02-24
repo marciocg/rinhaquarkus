@@ -23,3 +23,7 @@ https://stackoverflow.com/questions/57095830/how-to-fix-the-error-caused-by-java
 
 
 gerei a instalação com o comando: .\mvnw.cmd install -Dnative '-Dquarkus.native.container-build=true' '-Dquarkus.native.container-runtime=podman'
+criei o container (no root do projeto) com o comando: podman build -f .\src\main\docker\Dockerfile.native-micro --format=docker -t quay.io/mcgoulart/rinhaquarkus:latest .
+mandei pro quay com o comando: podman push quay.io/mcgoulart/rinhaquarkus:latest
+
+Lembrar que a DEV-UI do quarkus é muito útil, na extension do Hibernate tem os DDL lá para copiar.
