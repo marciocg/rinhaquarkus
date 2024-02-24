@@ -1,3 +1,14 @@
+
+POST http://localhost:8080/clientes/1/transacoes HTTP/1.1
+content-type: application/json
+
+{
+    "valor": 21000,
+    "tipo": "d",
+    "descricao": "saque em TAA"
+}
+
+
 POST http://localhost:8080/clientes/1/transacoes HTTP/1.1
 content-type: application/json
 
@@ -6,3 +17,4 @@ content-type: application/json
     "tipo": "c",
     "descricao": "depósito boca do caixa"
 }
+

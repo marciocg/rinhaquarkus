@@ -11,9 +11,6 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Saldo extends PanacheEntity {
 
-/*  @Id
-    @GeneratedValue
-    public Integer id; */
     public Integer total;
     public Integer limite;
     @JsonProperty("ultimas_transacoes")

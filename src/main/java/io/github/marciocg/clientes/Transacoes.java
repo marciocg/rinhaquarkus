@@ -1,14 +1,8 @@
 package io.github.marciocg.clientes;
 
-import java.time.Instant;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -29,8 +23,6 @@ public class Transacoes extends PanacheEntityBase {
     @JsonProperty("realizada_em")
     public String realizadaEm;
 
-    // @Column(name = "saldo_id")
-    // public Long saldoId;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     public Saldo saldo;
