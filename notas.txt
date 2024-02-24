@@ -20,3 +20,6 @@ Resolver o problema do Ryuk negar os testes por causa dos testcontainers (inclu�
 
 Resolver o erro de não conseguir fazer bind na porta 8081 de testes:
 https://stackoverflow.com/questions/57095830/how-to-fix-the-error-caused-by-java-net-bindexception-address-already-in-use
+
+
+gerei a instalação com o comando: .\mvnw.cmd install -Dnative '-Dquarkus.native.container-build=true' '-Dquarkus.native.container-runtime=podman'
