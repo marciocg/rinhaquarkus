@@ -47,6 +47,14 @@ You can then execute your native executable with: `./target/rinhaquarkus-1.0.0-S
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
+## Additional information of "rinha-de-backend-2024-q1" submission:
+- Submitted the `docker-compose.yml` along with the contents of the folder `./src/main/docker/rinha-compose/`
+
+- All tests passed ok and results shown p75 = 2ms
+
+## Implementation details
+- Take a look at _README.md_ inside `./src/main/docker/rinha-compose/` folder.
+
 ## Related Guides
 
 - Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
