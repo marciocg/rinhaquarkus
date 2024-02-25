@@ -3,6 +3,7 @@ package io.github.marciocg.clientes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,10 +17,11 @@ import jakarta.persistence.Table;
 public class Transacoes extends PanacheEntityBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @JsonIgnore
     public Integer id;
     public Integer valor;
+    @Column(length = 1)
     public String tipo;
     public String descricao;
     @JsonProperty("realizada_em")
