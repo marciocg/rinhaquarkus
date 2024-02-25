@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 
+@SuppressWarnings("unused")
 @RegisterForReflection
 // @JsonTypeInfo(use=Id.NAME, include=As.WRAPPER_OBJECT)
 // @JsonTypeName("saldo")

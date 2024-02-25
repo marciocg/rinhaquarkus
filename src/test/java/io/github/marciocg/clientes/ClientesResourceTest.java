@@ -25,7 +25,7 @@ public class ClientesResourceTest {
     @Transactional
     public void testClientesResourceExtrato() {
         Saldo saldo = new Saldo();
-        var del = saldo.deleteById(1);
+        var del = Saldo.deleteById(1);
         saldo.persist();
         // boolean deleted = Saldo.deleteById(1);
         // saldo.id = 1L;

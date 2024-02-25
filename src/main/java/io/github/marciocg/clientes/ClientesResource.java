@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 import io.quarkus.hibernate.orm.panache.Panache;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+@ApplicationScoped
 @Path("/clientes")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
