@@ -48,12 +48,12 @@ You can then execute your native executable with: `./target/rinhaquarkus-1.0.0-S
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
 ## Additional information of "rinha-de-backend-2024-q1" submission:
-- Submitted the `docker-compose.yml` along with the contents of the folder `./src/main/docker/rinha-compose/`
+- Submitted the `docker-compose.yml` along with the contents of the folder `./src/main/docker/rinhaquarkus-compose/`
 
 - All tests passed ok and results shown p75 = 2ms
 
 ## Implementation details
-- Take a look at _README.md_ inside `./src/main/docker/rinha-compose/` folder.
+- Take a look at _README.md_ inside `./src/main/docker/rinhaquarkus-compose/` folder.
 
 ## Related Guides
 
