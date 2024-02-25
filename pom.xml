@@ -66,6 +66,12 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.gatling.highcharts</groupId>
+      <artifactId>gatling-charts-highcharts</artifactId>
+      <version>3.9.5</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -122,6 +128,26 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>io.gatling</groupId>
+        <artifactId>gatling-maven-plugin</artifactId>
+        <version>4.8.2</version>
+        <configuration>
+                <simulationClass>RinhaBackendCrebitosSimulation</simulationClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>4.8.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -137,5 +163,20 @@
         <quarkus.package.type>native</quarkus.package.type>
       </properties>
     </profile>
+    <!-- <profile>
+      <id>Gatling</id>
+        <build>
+         <plugins>
+            <plugin>
+              <groupId>io.gatling</groupId>
+              <artifactId>gatling-maven-plugin</artifactId>
+              <version>4.8.2</version>
+              <configuration>
+                <simulationClass>RinhaBackendCrebitosSimulation</simulationClass>
+              </configuration>
+            </plugin>
+          </plugins>
+        </build>
+      </profile> -->
   </profiles>
 </project>

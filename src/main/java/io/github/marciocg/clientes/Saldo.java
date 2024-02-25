@@ -1,6 +1,10 @@
 package io.github.marciocg.clientes;
 
 import java.util.List;
+
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
@@ -9,9 +13,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
-@SuppressWarnings("unused")
 @Entity(name = "Saldo")
 @Table(name = "saldo")
+@OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Saldo extends PanacheEntity {
 
     public Integer total;
@@ -22,7 +26,7 @@ public class Saldo extends PanacheEntity {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    // @OrderBy("id DESC")
+    @OrderBy("id DESC")
     public List<Transacoes> transacoes;
     
     public void addTransacoes(Transacoes transacao) {
