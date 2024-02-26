@@ -25,13 +25,13 @@ public class ClientesResourceTest {
     @Transactional
     public void testClientesResourceExtrato() {
         Saldo saldo = new Saldo();
-        var del = Saldo.deleteById(1);
+        var del = saldo.deleteById(1);
         // saldo.persist();
         // boolean deleted = Saldo.deleteById(1);
         // saldo.id = 1L;
         saldo.limite = 100_000;
         saldo.total = 0;
-        saldo.version = 1;
+        // saldo.version = 1;
         Transacoes transacoesEmpty = Panache.getEntityManager().merge(new Transacoes());
         if (saldo.transacoes == null) {
             saldo.transacoes = new ArrayList<>();
