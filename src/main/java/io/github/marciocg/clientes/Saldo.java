@@ -12,14 +12,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 @Entity(name = "Saldo")
 @Table(name = "saldo")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Saldo extends PanacheEntity {
 
+    private static final long serialVersionUID = -9227181878L;
+
     public Integer total;
     public Integer limite;
+    @Version
+    public Integer version;
     @JsonProperty("ultimas_transacoes")
     @OneToMany(
         mappedBy = "saldo",

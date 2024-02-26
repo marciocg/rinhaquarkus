@@ -1,11 +1,12 @@
 
-    create sequence saldo_SEQ start with 1 increment by 1;
+    create sequence saldo_SEQ start with 1 increment by 50;
 
-    create sequence transacoes_SEQ start with 1 increment by 1;
+    create sequence transacoes_SEQ start with 1 increment by 50;
 
     create table saldo (
         limite integer,
         total integer,
+        version integer,
         id bigint not null,
         primary key (id)
     );
