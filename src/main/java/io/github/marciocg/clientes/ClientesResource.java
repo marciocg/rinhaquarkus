@@ -34,10 +34,11 @@ public class ClientesResource {
     @Transactional
     @Path("/{id}/transacoes")
     public TransacaoResponseDTO transacao(@PathParam("id") Integer id, final TransacaoRequestDTO transacaoRequest) {
-        if ((id < 1) || (id > 5)) {
+        /* if ((id < 1) || (id > 5)) {
             // if específico para tratar o caso da rinha
-            throw new WebApplicationException(Response.status(422).entity(transacaoRequest.valor + " Cliente não encontrado").build());
-        }
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+         }*/
+
         Saldo saldoCliente = getSaldoById(id);
 
         if (transacaoRequest.valor <= 0) {
@@ -65,7 +66,7 @@ public class ClientesResource {
                 transacaoRequest.descricao, Instant.now().toString()));
 
         saldoCliente.addTransacoes(novaTransacao);
-        saldoCliente.persistAndFlush();
+        saldoCliente.persist();
 
         return TransacaoResponseDTO.of(saldoCliente);
     }

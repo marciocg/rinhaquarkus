@@ -18,7 +18,7 @@ public class Transacoes extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @JsonIgnore
+    // @JsonIgnore
     public Integer id;
     public Integer valor;
     @Column(length = 1)

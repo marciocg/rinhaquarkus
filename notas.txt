@@ -15,6 +15,9 @@ https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-an
   E fazer o merge com o Panache:
   https://stackoverflow.com/questions/73178267/panache-equivalent-to-hibernate-merge
 
+Entender como funciona save(), persist() e merge() do Hibernate:
+https://www.baeldung.com/hibernate-save-persist-update-merge-saveorupdate
+
 Resolver o problema do Ryuk negar os testes por causa dos testcontainers (incluído arquivo .env):
  foi só seguir o que está nessa resposta do post https://stackoverflow.com/a/75110548/2443421 sem precisar setar a primera variável DOCKER_HOST
 
