@@ -1,5 +1,7 @@
 
-    create sequence saldo_SEQ start with 1 increment by 50;
+    create sequence saldo_SEQ start with 1 increment by 1;
+
+    create sequence transacoes_SEQ start with 1 increment by 1;
 
     create table saldo (
         limite integer,
@@ -9,12 +11,12 @@
     );
 
     create table transacoes (
-        id serial not null,
+        id integer not null,
+        tipo varchar(1),
         valor integer,
         saldo_id bigint,
         descricao varchar(255),
         realizadaEm varchar(255),
-        tipo varchar(255),
         primary key (id)
     );
 

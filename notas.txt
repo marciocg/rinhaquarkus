@@ -24,8 +24,10 @@ https://stackoverflow.com/questions/57095830/how-to-fix-the-error-caused-by-java
 Erro de permissão OCI ao rodar o container, é porque o Dockerfile do quarkus está errado:
 https://github.com/quarkusio/quarkus/issues/28414#issue-1398397042
 
-gerei a instalação com o comando: .\mvnw.cmd install -Dnative '-Dquarkus.native.container-build=true' '-Dquarkus.native.container-runtime=podman'
-criei o container (no root do projeto) com o comando: podman build -f .\src\main\docker\Dockerfile.native-micro --format=docker -t quay.io/mcgoulart/rinhaquarkus:latest .
+gerei a instalação com o comando: 
+ # .\mvnw.cmd install -Dnative '-Dquarkus.native.container-build=true' '-Dquarkus.native.container-runtime=podman'
+criei o container (no root do projeto) com o comando: podman build -f 
+ # .\src\main\docker\Dockerfile.native-micro --format=docker -t quay.io/mcgoulart/rinhaquarkus:latest .
 mandei pro quay com o comando: podman push quay.io/mcgoulart/rinhaquarkus:latest
 
 Lembrar que a DEV-UI do quarkus é muito útil
