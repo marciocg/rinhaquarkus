@@ -26,18 +26,19 @@ public class ClientesResourceTest {
     public void testClientesResourceExtrato() {
         Saldo saldo = new Saldo();
         var del = Saldo.deleteById(1);
-        saldo.persist();
+        // saldo.persist();
         // boolean deleted = Saldo.deleteById(1);
         // saldo.id = 1L;
         saldo.limite = 100_000;
         saldo.total = 0;
+        saldo.version = 1;
         Transacoes transacoesEmpty = Panache.getEntityManager().merge(new Transacoes());
         if (saldo.transacoes == null) {
             saldo.transacoes = new ArrayList<>();
         }
         saldo.addTransacoes(transacoesEmpty);
         // Panache.getEntityManager().persist(saldo);
-        saldo.persist();
+        saldo.persistAndFlush();
 
         given().contentType(ContentType.JSON)
                 .when().get(endpoint)
