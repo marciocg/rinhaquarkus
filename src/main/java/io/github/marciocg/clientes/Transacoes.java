@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 public class Transacoes extends PanacheEntityBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     // @JsonIgnore
     public Integer id;
     public Integer valor;

@@ -34,17 +34,17 @@ public class ClientesResource {
     @Transactional
     @Path("/{id}/transacoes")
     public TransacaoResponseDTO transacao(@PathParam("id") Integer id, final TransacaoRequestDTO transacaoRequest) {
-        /* if ((id < 1) || (id > 5)) {
+        if ((id < 1) || (id > 5)) {
             // if específico para tratar o caso da rinha
             throw new WebApplicationException(Response.Status.NOT_FOUND);
-         }*/
-
-        Saldo saldoCliente = getSaldoById(id);
+        }
 
         if (transacaoRequest.valor <= 0) {
             // valor negativo não pode, informar o débito/crédito no tipo
             throw new WebApplicationException(Response.status(422).entity(transacaoRequest.valor + " Valor inválido").build());
         }
+
+        Saldo saldoCliente = getSaldoById(id);
 
         if (transacaoRequest.tipo.equals("c")) {
             saldoCliente.total += transacaoRequest.valor;
@@ -57,7 +57,6 @@ public class ClientesResource {
 
         if ((saldoCliente.total < 0) && (saldoCliente.total * -1 > saldoCliente.limite)) {
             // estouro de limite - saldo insuficiente
-            // throw new WebApplicationException(Response.Status.fromStatusCode(422));
             throw new WebApplicationException(
                     Response.status(422).entity(transacaoRequest.valor + " Saldo insuficiente").build());
         }

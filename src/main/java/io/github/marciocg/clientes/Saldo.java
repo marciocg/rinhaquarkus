@@ -26,7 +26,7 @@ public class Saldo extends PanacheEntityBase {
 
     // private static final long serialVersionUID = -9227181878L;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
     public Integer total;
     public Integer limite;
@@ -38,7 +38,7 @@ public class Saldo extends PanacheEntityBase {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    // @OrderBy("id DESC")
+    @OrderBy("id DESC")
     public List<Transacoes> transacoes;
     
     public void addTransacoes(Transacoes transacao) {
