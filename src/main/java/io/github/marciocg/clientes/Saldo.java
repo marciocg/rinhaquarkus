@@ -24,7 +24,6 @@ import jakarta.persistence.Version;
 @SuppressWarnings("unused")
 @Entity(name = "Saldo")
 @Table(name = "saldo")
-// @OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Saldo extends PanacheEntity {
 
     // @Id
@@ -32,15 +31,15 @@ public class Saldo extends PanacheEntity {
     // public Integer id;
     public Integer total;
     public Integer limite;
-    // @Version
-    // public Integer version;
+    @Version
+    public Long version;
     @JsonProperty("ultimas_transacoes")
     @OneToMany(
         mappedBy = "saldo",
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    @OrderBy("id DESC, realizadaEm DESC")
+    @OrderBy("realizadaEm DESC")
     public List<Transacoes> transacoes;
     
     public void addTransacoes(Transacoes transacao) {
