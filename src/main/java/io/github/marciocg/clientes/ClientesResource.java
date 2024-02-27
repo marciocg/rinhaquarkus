@@ -45,20 +45,25 @@ public class ClientesResource {
             throw new WebApplicationException(Response.status(422).entity("Campo nulo").build());
         }
 
-        if ((transacaoRequest.valor < 100)                //nao tem valor com centavos, então valor sempre é no mínimo 100 (1 unidade e 00 centavos)
-                || (transacaoRequest.valor - (int) transacaoRequest.valor != 0)) {
+        Integer valor;
+        try {
+            valor = Integer.parseInt(transacaoRequest.valor);
+        } catch (Exception e) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+
+        if (valor <= 0) {
             // valor negativo ou zerado não pode, informar o débito/crédito no tipo
-            // valor deve ser integer
             throw new WebApplicationException(
-                    Response.status(422).entity(transacaoRequest.valor + " Valor inválido").build());
+                    Response.status(422).entity(valor.toString() + " Valor inválido").build());
         }
 
         Saldo saldoCliente = getSaldoByIdWriteLock(id);
 
         if (transacaoRequest.tipo.equals("c")) {
-            saldoCliente.total += transacaoRequest.valor;
+            saldoCliente.total += valor;
         } else if (transacaoRequest.tipo.equals("d")) {
-            saldoCliente.total -= transacaoRequest.valor;
+            saldoCliente.total -= valor;
         } else {
             // tipo de transação não é débito nem crédito
             throw new WebApplicationException(
@@ -68,7 +73,7 @@ public class ClientesResource {
         if ((saldoCliente.total < 0) && (saldoCliente.total * -1 > saldoCliente.limite)) {
             // estouro de limite - saldo insuficiente
             throw new WebApplicationException(
-                    Response.status(422).entity(transacaoRequest.valor + " Saldo insuficiente").build());
+                    Response.status(422).entity(valor.toString() + " Saldo insuficiente").build());
         }
 
         int tam = transacaoRequest.descricao.length();
@@ -83,7 +88,7 @@ public class ClientesResource {
         }
 
         Transacoes novaTransacao = Panache.getEntityManager()
-                .merge(new Transacoes(transacaoRequest.valor, transacaoRequest.tipo,
+                .merge(new Transacoes(valor, transacaoRequest.tipo,
                         transacaoRequest.descricao.substring(0, tam), Instant.now()));
 
         saldoCliente.addTransacoes(novaTransacao);

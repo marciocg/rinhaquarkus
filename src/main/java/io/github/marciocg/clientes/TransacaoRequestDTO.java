@@ -8,7 +8,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 @JsonPropertyOrder({ "valor", "tipo", "descricao" })
 public class TransacaoRequestDTO {
 
-    public Integer valor;
+    public String valor;
     public String tipo;
     public String descricao;
     
