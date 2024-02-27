@@ -39,8 +39,12 @@ public class ClientesResource {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
 
+        if ((transacaoRequest.descricao == null) || (transacaoRequest.valor == null) || (transacaoRequest.tipo == null)) {
+            throw new WebApplicationException(Response.status(422).entity("Campo nulo").build());
+        }
+
         if (transacaoRequest.valor <= 0) {
-            // valor negativo não pode, informar o débito/crédito no tipo
+            // valor negativo zerado ou não pode, informar o débito/crédito no tipo
             throw new WebApplicationException(Response.status(422).entity(transacaoRequest.valor + " Valor inválido").build());
         }
 
@@ -61,8 +65,13 @@ public class ClientesResource {
                     Response.status(422).entity(transacaoRequest.valor + " Saldo insuficiente").build());
         }
 
+        int tam = transacaoRequest.descricao.length();
+        if (tam > 10) {
+            tam = 10;
+        }
+
         Transacoes novaTransacao = Panache.getEntityManager().merge(new Transacoes(transacaoRequest.valor, transacaoRequest.tipo,
-                transacaoRequest.descricao.substring(0, 10), Instant.now()));
+                transacaoRequest.descricao.substring(0, tam), Instant.now()));
 
         saldoCliente.addTransacoes(novaTransacao);
         saldoCliente.persist();
