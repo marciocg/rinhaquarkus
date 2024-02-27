@@ -31,8 +31,8 @@ public class Saldo extends PanacheEntity {
     // public Integer id;
     public Integer total;
     public Integer limite;
-    @Version
-    public Long version;
+    // @Version
+    // public Long version;
     @JsonProperty("ultimas_transacoes")
     @OneToMany(
         mappedBy = "saldo",

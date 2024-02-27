@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import io.quarkus.hibernate.orm.panache.Panache;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -48,7 +49,7 @@ public class ClientesResource {
             throw new WebApplicationException(Response.status(422).entity(transacaoRequest.valor + " Valor inválido").build());
         }
 
-        Saldo saldoCliente = getSaldoById(id);
+        Saldo saldoCliente = getSaldoByIdWriteLock(id);
 
         if (transacaoRequest.tipo.equals("c")) {
             saldoCliente.total += transacaoRequest.valor;
@@ -80,11 +81,27 @@ public class ClientesResource {
                 transacaoRequest.descricao.substring(0, tam), Instant.now()));
 
         saldoCliente.addTransacoes(novaTransacao);
-        saldoCliente.persist();
+        saldoCliente.persistAndFlush();
 
         return TransacaoResponseDTO.of(saldoCliente);
     }
 
+    private Saldo getSaldoByIdWriteLock(Integer id) {
+        Optional<Saldo> saldo = Saldo.findByIdOptional(id, LockModeType.PESSIMISTIC_WRITE);
+        if (saldo.isEmpty()) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        } else {
+            return saldo.get();
+        }
+    }
+    private Saldo getSaldoByIdReadLock(Integer id) {
+        Optional<Saldo> saldo = Saldo.findByIdOptional(id, LockModeType.PESSIMISTIC_READ);
+        if (saldo.isEmpty()) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        } else {
+            return saldo.get();
+        }
+    }
     private Saldo getSaldoById(Integer id) {
         Optional<Saldo> saldo = Saldo.findByIdOptional(id);
         if (saldo.isEmpty()) {
