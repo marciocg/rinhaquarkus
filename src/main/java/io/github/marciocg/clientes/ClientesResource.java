@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 import io.quarkus.hibernate.orm.panache.Panache;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
@@ -58,6 +59,17 @@ public class ClientesResource {
                     Response.status(422).entity(valor.toString() + " Valor inválido").build());
         }
 
+        Log.info("dafuq");
+        Log.info(transacaoRequest.descricao);
+        Log.info(transacaoRequest.descricao.length());
+
+        if ((transacaoRequest.descricao.isBlank()) || (transacaoRequest.descricao.isEmpty())
+                || (transacaoRequest.descricao.length()) > 10 || (transacaoRequest.descricao.length() == 0)) {
+            throw new WebApplicationException(
+                    Response.status(422).entity(valor.toString() + " Descrição inválida").build());
+        }
+        int tam = transacaoRequest.descricao.length();
+
         Saldo saldoCliente = getSaldoByIdWriteLock(id);
 
         if (transacaoRequest.tipo.equals("c")) {
@@ -75,12 +87,6 @@ public class ClientesResource {
             throw new WebApplicationException(
                     Response.status(422).entity(valor.toString() + " Saldo insuficiente").build());
         }
-
-        if (transacaoRequest.descricao.isBlank() || transacaoRequest.descricao.isEmpty()
-                || transacaoRequest.descricao.length() > 10 || transacaoRequest.descricao.length() == 0) {
-            Response.status(422).entity(" Descricao vazia").build();
-        }
-        int tam = transacaoRequest.descricao.length();
 
         Transacoes novaTransacao = Panache.getEntityManager()
                 .merge(new Transacoes(valor, transacaoRequest.tipo,
