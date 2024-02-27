@@ -68,8 +68,14 @@ public class ClientesResource {
         int tam = transacaoRequest.descricao.length();
         if (tam > 10) {
             tam = 10;
+        } else if (tam == 0) {
+            Response.status(422).entity(" Descricao com tamanho 0").build();
         }
 
+        if (transacaoRequest.descricao.isBlank() || transacaoRequest.descricao.isEmpty()) {
+            Response.status(422).entity(" Descricao vazia").build();
+        }
+        
         Transacoes novaTransacao = Panache.getEntityManager().merge(new Transacoes(transacaoRequest.valor, transacaoRequest.tipo,
                 transacaoRequest.descricao.substring(0, tam), Instant.now()));
 
