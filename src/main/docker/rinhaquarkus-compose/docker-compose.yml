@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
   api01: &api
-    image: quay.io/mcgoulart/rinhaquarkus:v1.2
+    image: quay.io/mcgoulart/rinhaquarkus:latest
     hostname: api01
     environment:
       - HOSTNAME=db

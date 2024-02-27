@@ -1,18 +1,21 @@
+    create sequence saldo_SEQ start with 1 increment by 50;
+
+    create sequence transacoes_SEQ start with 1 increment by 50;
 
     create table saldo (
-        id serial not null,
         limite integer,
         total integer,
+        id bigint not null,
         primary key (id)
     );
 
     create table transacoes (
-        id serial not null,
-        saldo_id integer,
         tipo varchar(1),
         valor integer,
-        descricao varchar(255),
-        realizadaEm varchar(255),
+        id bigint not null,
+        realizada_em timestamp(6) with time zone,
+        saldo_id bigint,
+        descricao varchar(10),
         primary key (id)
     );
 

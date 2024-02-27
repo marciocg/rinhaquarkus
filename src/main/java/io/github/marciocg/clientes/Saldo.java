@@ -40,7 +40,7 @@ public class Saldo extends PanacheEntity {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    @OrderBy("realizadaEm DESC")
+    @OrderBy("id DESC, realizadaEm DESC")
     public List<Transacoes> transacoes;
     
     public void addTransacoes(Transacoes transacao) {
