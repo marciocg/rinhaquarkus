@@ -45,7 +45,7 @@ public class ClientesResource {
             throw new WebApplicationException(Response.status(422).entity("Campo nulo").build());
         }
 
-        if ((transacaoRequest.valor <= 0)
+        if ((transacaoRequest.valor < 100)                //nao tem valor com centavos, então valor sempre é no mínimo 100 (1 unidade e 00 centavos)
                 || (transacaoRequest.valor - (int) transacaoRequest.valor != 0)) {
             // valor negativo ou zerado não pode, informar o débito/crédito no tipo
             // valor deve ser integer
