@@ -40,13 +40,17 @@ public class ClientesResource {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
 
-        if ((transacaoRequest.descricao == null) || (transacaoRequest.valor == null) || (transacaoRequest.tipo == null)) {
+        if ((transacaoRequest.descricao == null) || (transacaoRequest.valor == null)
+                || (transacaoRequest.tipo == null)) {
             throw new WebApplicationException(Response.status(422).entity("Campo nulo").build());
         }
 
-        if (transacaoRequest.valor <= 0) {
-            // valor negativo zerado ou não pode, informar o débito/crédito no tipo
-            throw new WebApplicationException(Response.status(422).entity(transacaoRequest.valor + " Valor inválido").build());
+        if ((transacaoRequest.valor <= 0)
+                || (transacaoRequest.valor - (int) transacaoRequest.valor != 0)) {
+            // valor negativo ou zerado não pode, informar o débito/crédito no tipo
+            // valor deve ser integer
+            throw new WebApplicationException(
+                    Response.status(422).entity(transacaoRequest.valor + " Valor inválido").build());
         }
 
         Saldo saldoCliente = getSaldoByIdWriteLock(id);
@@ -57,7 +61,8 @@ public class ClientesResource {
             saldoCliente.total -= transacaoRequest.valor;
         } else {
             // tipo de transação não é débito nem crédito
-            throw new WebApplicationException(Response.status(422).entity(transacaoRequest.tipo + " Tipo de transação inválido").build());
+            throw new WebApplicationException(
+                    Response.status(422).entity(transacaoRequest.tipo + " Tipo de transação inválido").build());
         }
 
         if ((saldoCliente.total < 0) && (saldoCliente.total * -1 > saldoCliente.limite)) {
@@ -76,9 +81,10 @@ public class ClientesResource {
         if (transacaoRequest.descricao.isBlank() || transacaoRequest.descricao.isEmpty()) {
             Response.status(422).entity(" Descricao vazia").build();
         }
-        
-        Transacoes novaTransacao = Panache.getEntityManager().merge(new Transacoes(transacaoRequest.valor, transacaoRequest.tipo,
-                transacaoRequest.descricao.substring(0, tam), Instant.now()));
+
+        Transacoes novaTransacao = Panache.getEntityManager()
+                .merge(new Transacoes(transacaoRequest.valor, transacaoRequest.tipo,
+                        transacaoRequest.descricao.substring(0, tam), Instant.now()));
 
         saldoCliente.addTransacoes(novaTransacao);
         saldoCliente.persistAndFlush();
@@ -94,14 +100,19 @@ public class ClientesResource {
             return saldo.get();
         }
     }
-    private Saldo getSaldoByIdReadLock(Integer id) {
-        Optional<Saldo> saldo = Saldo.findByIdOptional(id, LockModeType.PESSIMISTIC_READ);
-        if (saldo.isEmpty()) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
-        } else {
-            return saldo.get();
-        }
-    }
+
+    /*
+     * private Saldo getSaldoByIdReadLock(Integer id) {
+     * Optional<Saldo> saldo = Saldo.findByIdOptional(id,
+     * LockModeType.PESSIMISTIC_READ);
+     * if (saldo.isEmpty()) {
+     * throw new WebApplicationException(Response.Status.NOT_FOUND);
+     * } else {
+     * return saldo.get();
+     * }
+     * }
+     */
+
     private Saldo getSaldoById(Integer id) {
         Optional<Saldo> saldo = Saldo.findByIdOptional(id);
         if (saldo.isEmpty()) {
