@@ -62,7 +62,7 @@ public class ClientesResource {
         }
 
         Transacoes novaTransacao = Panache.getEntityManager().merge(new Transacoes(transacaoRequest.valor, transacaoRequest.tipo,
-                transacaoRequest.descricao, Instant.now().toString()));
+                transacaoRequest.descricao.substring(0, 10), Instant.now()));
 
         saldoCliente.addTransacoes(novaTransacao);
         saldoCliente.persist();

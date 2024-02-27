@@ -2,6 +2,8 @@ package io.github.marciocg.clientes;
 
 import java.util.List;
 
+import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
@@ -9,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ColumnResult;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,12 +25,11 @@ import jakarta.persistence.Version;
 @Entity(name = "Saldo")
 @Table(name = "saldo")
 // @OptimisticLocking(type = OptimisticLockType.VERSION)
-public class Saldo extends PanacheEntityBase {
+public class Saldo extends PanacheEntity {
 
-    // private static final long serialVersionUID = -9227181878L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // public Integer id;
     public Integer total;
     public Integer limite;
     // @Version
@@ -38,7 +40,7 @@ public class Saldo extends PanacheEntityBase {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    @OrderBy("id DESC")
+    @OrderBy("realizadaEm DESC")
     public List<Transacoes> transacoes;
     
     public void addTransacoes(Transacoes transacao) {

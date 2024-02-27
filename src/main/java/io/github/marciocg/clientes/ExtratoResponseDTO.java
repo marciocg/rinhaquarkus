@@ -1,6 +1,7 @@
 package io.github.marciocg.clientes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,7 +13,7 @@ public final class ExtratoResponseDTO {
 
     public ExtratoResponseDTO(SaldoDTO saldo, List<Transacoes> transacoes) {
         this.saldo = saldo;
-        this.transacoes = transacoes;
+        this.transacoes = transacoes.stream().limit(10).collect(Collectors.toList());
     }
 
     public static ExtratoResponseDTO of(Saldo saldo) {
