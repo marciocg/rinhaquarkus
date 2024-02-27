@@ -76,16 +76,11 @@ public class ClientesResource {
                     Response.status(422).entity(valor.toString() + " Saldo insuficiente").build());
         }
 
-        int tam = transacaoRequest.descricao.length();
-        if (tam > 10) {
-            tam = 10;
-        } else if (tam == 0) {
-            Response.status(422).entity(" Descricao com tamanho 0").build();
-        }
-
-        if (transacaoRequest.descricao.isBlank() || transacaoRequest.descricao.isEmpty()) {
+        if (transacaoRequest.descricao.isBlank() || transacaoRequest.descricao.isEmpty()
+                || transacaoRequest.descricao.length() > 10 || transacaoRequest.descricao.length() == 0) {
             Response.status(422).entity(" Descricao vazia").build();
         }
+        int tam = transacaoRequest.descricao.length();
 
         Transacoes novaTransacao = Panache.getEntityManager()
                 .merge(new Transacoes(valor, transacaoRequest.tipo,
