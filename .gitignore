@@ -37,7 +37,8 @@ nb-configuration.xml
 *.rej
 
 # Local environment
-.env
+#.env
+.sbt
 .gatling
 .rinha-de-backend-2024-q1
 

@@ -10,6 +10,9 @@ https://www.baeldung.com/jackson-annotations#bd-6-jsonrootname
  E mais:
  https://www.logicbig.com/tutorials/misc/jackson/json-type-info-with-logical-type-name.html
 
+Tratamento jackson em json infinito em relação bi-direcional (ou problema N+1, pq não identifiquei certo)
+https://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
+
 Entender como gravar os dados na tabela de transações:
 https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
   E fazer o merge com o Panache:
@@ -17,6 +20,9 @@ https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-an
 
 Entender como funciona save(), persist() e merge() do Hibernate:
 https://www.baeldung.com/hibernate-save-persist-update-merge-saveorupdate
+
+Entender quem é o 'owning side' nas relações bi-direcionais (é a entidade que faz referência à outra, a "many", que não define o mappedBy)
+https://stackoverflow.com/a/2749719/2443421
 
 Resolver o problema do Ryuk negar os testes por causa dos testcontainers (incluído arquivo .env):
  foi só seguir o que está nessa resposta do post https://stackoverflow.com/a/75110548/2443421 sem precisar setar a primera variável DOCKER_HOST
@@ -26,6 +32,9 @@ https://stackoverflow.com/questions/57095830/how-to-fix-the-error-caused-by-java
 
 Erro de permissão OCI ao rodar o container, é porque o Dockerfile do quarkus está errado:
 https://github.com/quarkusio/quarkus/issues/28414#issue-1398397042
+
+Dicas de Hibernate:
+https://vladmihalcea.com/hibernate-performance-tuning-tips/
 
 gerei a instalação com o comando: 
  # .\mvnw.cmd install -Dnative '-Dquarkus.native.container-build=true' '-Dquarkus.native.container-runtime=podman'

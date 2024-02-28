@@ -8,10 +8,11 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity(name = "Transacao")
+@Entity
 @Table(name = "transacao")
 public class Transacao extends PanacheEntity {
 
@@ -22,8 +23,8 @@ public class Transacao extends PanacheEntity {
     public String descricao;
     @Column(name = "realizada_em")
     public Instant realizadaEm;
-    //@JsonIgnore                 //essa anotação está resolvendo magicamente o problema de N+1 do ExtratoResponseDTO, então retirei e botei EAGER
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore(value = true)            //essa anotação está resolvendo magicamente o problema de JSON INFINITO do ExtratoResponseDTO
+    @ManyToOne(fetch = FetchType.LAZY)
     public Saldo saldo;
 
     public Transacao() {

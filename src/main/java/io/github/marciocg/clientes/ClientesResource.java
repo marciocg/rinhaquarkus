@@ -1,5 +1,6 @@
 package io.github.marciocg.clientes;
 
+import java.math.BigInteger;
 import java.time.Instant;
 import io.quarkus.hibernate.orm.panache.Panache;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -24,7 +25,13 @@ public class ClientesResource {
     @Path("/{id}/extrato")
 
     public ExtratoResponseDTO extrato(@PathParam("id") Integer id) {
-        return new ExtratoResponseDTO(Saldo.getSaldoById(id));
+        // return new ExtratoResponseDTO(Saldo.getSaldoById(id));
+        Saldo saldo = Saldo.getSaldoWithUltimasTransacoesById(BigInteger.valueOf(id));
+        if (saldo == null) {
+            saldo = Saldo.getSaldoById(id.intValue());
+        }
+
+        return new ExtratoResponseDTO(saldo);
     }
 
     @SuppressWarnings("resource")
@@ -84,8 +91,11 @@ public class ClientesResource {
                 .merge(new Transacao(valor, transacaoRequest.tipo,
                         transacaoRequest.descricao.substring(0, tam), Instant.now()));
 
-        saldoCliente.addTransacoes(novaTransacao);
+        // saldoCliente.addTransacoes(novaTransacao);
+        saldoCliente.transacoes.add(novaTransacao);
+        novaTransacao.saldo = saldoCliente;
         saldoCliente.persistAndFlush();
+        novaTransacao.persistAndFlush();
 
         return TransacaoResponseDTO.of(saldoCliente);
     }
