@@ -6,11 +6,12 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "transacao")
+@Table(name = "transacao", indexes = @Index(name = "idx_realizada_em", columnList = "realizada_em DESC"))
 public class Transacao extends PanacheEntity {
 
     public Integer valor;

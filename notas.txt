@@ -36,6 +36,11 @@ https://github.com/quarkusio/quarkus/issues/28414#issue-1398397042
 Dicas de Hibernate:
 https://vladmihalcea.com/hibernate-performance-tuning-tips/
 
+Tratar o warning "firstResult/maxResults specified with collection fetch..."
+https://stackoverflow.com/questions/11431670/how-can-i-avoid-the-warning-firstresult-maxresults-specified-with-collection-fe
+ E explicação de diferença entre JOIN e JOIN fetch
+ https://stackoverflow.com/a/59468551/2443421
+
 gerei a instalação com o comando: 
  # .\mvnw.cmd install -Dnative '-Dquarkus.native.container-build=true' '-Dquarkus.native.container-runtime=podman'
 criei o container (no root do projeto) com o comando: 

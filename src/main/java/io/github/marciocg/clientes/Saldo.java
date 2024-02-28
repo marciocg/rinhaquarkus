@@ -41,9 +41,10 @@ public class Saldo extends PanacheEntity {
         }
     }
 
-    public static Saldo getSaldoWithUltimasTransacoesById(BigInteger id) {
-        return find("FROM Saldo s LEFT JOIN FETCH s.transacoes WHERE s.id = ?1 ORDER BY realizadaEm DESC LIMIT 10", id).firstResult();
-
+    public static Saldo getSaldoWithUltimasTransacoesById(Integer id) {
+        Saldo saldo = find("FROM Saldo s LEFT JOIN FETCH s.transacoes WHERE s.id = ?1 ORDER BY realizadaEm", id).firstResult();
+        saldo.transacoes = Transacao.list("FROM Transacao t WHERE saldo_id = ?1 ORDER BY realizadaEm", id);
+        return saldo;
     }
 
     public static void atualizaSaldoComNovaTransacao(Saldo saldoCliente, Transacao novaTransacao) {

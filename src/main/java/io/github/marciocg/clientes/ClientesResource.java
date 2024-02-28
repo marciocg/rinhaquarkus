@@ -25,7 +25,7 @@ public class ClientesResource {
     @Path("/{id}/extrato")
 
     public ExtratoResponseDTO extrato(@PathParam("id") Integer id) {
-        Saldo saldo = Saldo.getSaldoWithUltimasTransacoesById(BigInteger.valueOf(id));
+        Saldo saldo = Saldo.getSaldoWithUltimasTransacoesById(id);
         if (saldo == null) {
             saldo = Saldo.getSaldoById(id.intValue());
         }

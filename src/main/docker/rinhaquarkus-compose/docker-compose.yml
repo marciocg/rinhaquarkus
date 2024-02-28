@@ -16,7 +16,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.3"
+          cpus: "0.35"
           memory: "140MB"
 
   api02:
@@ -38,7 +38,7 @@ services:
       resources:
         limits:
           cpus: "0.2"
-          memory: "30MB"
+          memory: "40MB"
 
   db:
     image: postgres:latest
@@ -57,8 +57,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.7"
-          memory: "240MB"
+          cpus: "0.6"
+          memory: "230MB"
 
 volumes:
   pg-volume:
