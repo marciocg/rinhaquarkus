@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.marciocg</groupId>
   <artifactId>rinhaquarkus</artifactId>
-  <version>1.4.3-SNAPSHOT</version>
+  <version>1.4.4</version>
   <properties>
     <compiler-plugin.version>3.12.1</compiler-plugin.version>
     <maven.compiler.release>17</maven.compiler.release>
@@ -142,7 +142,7 @@
                 <simulationClass>RinhaBackendCrebitosSimulation</simulationClass>
         </configuration>
       </plugin>
-      <plugin>
+<!--       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
         <version>4.8.1</version>
@@ -154,7 +154,7 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
+ -->    </plugins>
   </build>
   <profiles>
     <profile>

@@ -25,11 +25,10 @@ public class ClientesResource {
     @Path("/{id}/extrato")
 
     public ExtratoResponseDTO extrato(@PathParam("id") Integer id) {
-        // return new ExtratoResponseDTO(Saldo.getSaldoById(id));
         Saldo saldo = Saldo.getSaldoWithUltimasTransacoesById(BigInteger.valueOf(id));
-        if (saldo == null) {
-            saldo = Saldo.getSaldoById(id.intValue());
-        }
+        // if (saldo == null) {
+        //     saldo = Saldo.getSaldoById(id.intValue());
+        // }
 
         return new ExtratoResponseDTO(saldo);
     }
@@ -87,16 +86,12 @@ public class ClientesResource {
                     Response.status(422).entity(valor.toString() + " Saldo insuficiente").build());
         }
 
+
         Transacao novaTransacao = Panache.getEntityManager()
                 .merge(new Transacao(valor, transacaoRequest.tipo,
                         transacaoRequest.descricao.substring(0, tam), Instant.now()));
 
-        // saldoCliente.addTransacoes(novaTransacao);
-        saldoCliente.transacoes.add(novaTransacao);
-        novaTransacao.saldo = saldoCliente;
-        saldoCliente.persistAndFlush();
-        novaTransacao.persistAndFlush();
-
+        Saldo.atualizaSaldoComNovaTransacao(saldoCliente, novaTransacao);
         return TransacaoResponseDTO.of(saldoCliente);
     }
 

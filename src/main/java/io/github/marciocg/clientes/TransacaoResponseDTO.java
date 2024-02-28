@@ -15,10 +15,6 @@ public final class TransacaoResponseDTO {
         this.saldo = saldo;
     }
 
-    public TransacaoResponseDTO(Saldo saldo) {
-        this(saldo.limite, saldo.total);
-    }
-
     public static TransacaoResponseDTO of(Saldo saldo) {
         return new TransacaoResponseDTO(saldo.limite, saldo.total);
     }
