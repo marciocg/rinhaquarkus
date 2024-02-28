@@ -3,15 +3,16 @@ package io.github.marciocg.clientes;
 import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.panache.common.Sort;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "transacao", indexes = @Index(name = "idx_realizada_em", columnList = "realizada_em DESC"))
+@Table(name = "transacao") //, indexes = @Index(name = "idx_realizada_em", columnList = "realizada_em DESC"))
 public class Transacao extends PanacheEntity {
 
     public Integer valor;
@@ -21,7 +22,7 @@ public class Transacao extends PanacheEntity {
     public String descricao;
     @Column(name = "realizada_em")
     public Instant realizadaEm;
-    @JsonIgnore(value = true)            //essa anotação está resolvendo magicamente o problema de JSON INFINITO do ExtratoResponseDTO
+    @JsonIgnore(value = true) // essa anotação está resolvendo magicamente o problema de JSON INFINITO do ExtratoResponseDTO
     @ManyToOne(fetch = FetchType.LAZY)
     public Saldo saldo;
 
@@ -34,6 +35,13 @@ public class Transacao extends PanacheEntity {
         this.tipo = tipo;
         this.descricao = descricao;
         this.realizadaEm = realizadaEm;
+    }
+
+    public static PanacheQuery<Transacao> getUltimas10Transacoes(Saldo saldo) {
+        PanacheQuery<Transacao> transacoesQuery = Transacao
+                .find("FROM Transacao t WHERE t.saldo = ?1", Sort.descending("realizadaEm"), saldo);
+        transacoesQuery.range(0, 9);
+        return transacoesQuery;
     }
 
     @Override

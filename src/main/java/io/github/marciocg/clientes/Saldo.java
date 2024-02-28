@@ -1,10 +1,10 @@
 package io.github.marciocg.clientes;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,8 +42,9 @@ public class Saldo extends PanacheEntity {
     }
 
     public static Saldo getSaldoWithUltimasTransacoesById(Integer id) {
-        Saldo saldo = find("FROM Saldo s LEFT JOIN FETCH s.transacoes WHERE s.id = ?1 ORDER BY realizadaEm", id).firstResult();
-        saldo.transacoes = Transacao.list("FROM Transacao t WHERE saldo_id = ?1 ORDER BY realizadaEm", id);
+        Saldo saldo = getSaldoById(id);
+        PanacheQuery<Transacao> transacoesQuery = Transacao.getUltimas10Transacoes(saldo);
+        saldo.transacoes = transacoesQuery.list();
         return saldo;
     }
 

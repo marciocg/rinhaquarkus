@@ -1,6 +1,5 @@
 package io.github.marciocg.clientes;
 
-import java.math.BigInteger;
 import java.time.Instant;
 import io.quarkus.hibernate.orm.panache.Panache;
 import jakarta.enterprise.context.ApplicationScoped;
