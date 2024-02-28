@@ -1,51 +1,51 @@
 package io.github.marciocg.clientes;
 
 import java.util.List;
-
-import org.hibernate.annotations.ColumnTransformer;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.OptimisticLockType;
-import org.hibernate.annotations.OptimisticLocking;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.ColumnResult;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
-import jakarta.persistence.Version;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 
-@SuppressWarnings("unused")
 @Entity(name = "Saldo")
 @Table(name = "saldo")
 public class Saldo extends PanacheEntity {
 
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // public Integer id;
     public Integer total;
     public Integer limite;
-    // @Version
-    // public Long version;
     @JsonProperty("ultimas_transacoes")
-    @OneToMany(
-        mappedBy = "saldo",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "saldo", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("realizadaEm DESC")
-    public List<Transacoes> transacoes;
-    
-    public void addTransacoes(Transacoes transacao) {
+    public List<Transacao> transacoes;
+
+    public void addTransacoes(Transacao transacao) {
         this.transacoes.add(transacao);
         transacao.saldo = this;
     }
-    
-}
 
+    public static Saldo getSaldoByIdWriteLock(Integer id) {
+        Optional<Saldo> saldo = Saldo.findByIdOptional(id, LockModeType.PESSIMISTIC_WRITE);
+        if (saldo.isEmpty()) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        } else {
+            return saldo.get();
+        }
+    }
+
+    public static Saldo getSaldoById(Integer id) {
+        Optional<Saldo> saldo = Saldo.findByIdOptional(id);
+        if (saldo.isEmpty()) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        } else {
+            return saldo.get();
+        }
+    }
+
+}

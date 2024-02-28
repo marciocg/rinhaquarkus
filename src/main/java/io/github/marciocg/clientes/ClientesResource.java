@@ -1,12 +1,8 @@
 package io.github.marciocg.clientes;
 
 import java.time.Instant;
-import java.util.Optional;
-
 import io.quarkus.hibernate.orm.panache.Panache;
-import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -28,7 +24,7 @@ public class ClientesResource {
     @Path("/{id}/extrato")
 
     public ExtratoResponseDTO extrato(@PathParam("id") Integer id) {
-        return ExtratoResponseDTO.of(getSaldoById(id));
+        return new ExtratoResponseDTO(Saldo.getSaldoById(id));
     }
 
     @SuppressWarnings("resource")
@@ -59,10 +55,6 @@ public class ClientesResource {
                     Response.status(422).entity(valor.toString() + " Valor inválido").build());
         }
 
-        Log.info("dafuq");
-        Log.info(transacaoRequest.descricao);
-        Log.info(transacaoRequest.descricao.length());
-
         if ((transacaoRequest.descricao.isBlank()) || (transacaoRequest.descricao.isEmpty())
                 || (transacaoRequest.descricao.length()) > 10 || (transacaoRequest.descricao.length() == 0)) {
             throw new WebApplicationException(
@@ -70,7 +62,7 @@ public class ClientesResource {
         }
         int tam = transacaoRequest.descricao.length();
 
-        Saldo saldoCliente = getSaldoByIdWriteLock(id);
+        Saldo saldoCliente = Saldo.getSaldoByIdWriteLock(id);
 
         if (transacaoRequest.tipo.equals("c")) {
             saldoCliente.total += valor;
@@ -88,8 +80,8 @@ public class ClientesResource {
                     Response.status(422).entity(valor.toString() + " Saldo insuficiente").build());
         }
 
-        Transacoes novaTransacao = Panache.getEntityManager()
-                .merge(new Transacoes(valor, transacaoRequest.tipo,
+        Transacao novaTransacao = Panache.getEntityManager()
+                .merge(new Transacao(valor, transacaoRequest.tipo,
                         transacaoRequest.descricao.substring(0, tam), Instant.now()));
 
         saldoCliente.addTransacoes(novaTransacao);
@@ -98,34 +90,5 @@ public class ClientesResource {
         return TransacaoResponseDTO.of(saldoCliente);
     }
 
-    private Saldo getSaldoByIdWriteLock(Integer id) {
-        Optional<Saldo> saldo = Saldo.findByIdOptional(id, LockModeType.PESSIMISTIC_WRITE);
-        if (saldo.isEmpty()) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
-        } else {
-            return saldo.get();
-        }
-    }
-
-    /*
-     * private Saldo getSaldoByIdReadLock(Integer id) {
-     * Optional<Saldo> saldo = Saldo.findByIdOptional(id,
-     * LockModeType.PESSIMISTIC_READ);
-     * if (saldo.isEmpty()) {
-     * throw new WebApplicationException(Response.Status.NOT_FOUND);
-     * } else {
-     * return saldo.get();
-     * }
-     * }
-     */
-
-    private Saldo getSaldoById(Integer id) {
-        Optional<Saldo> saldo = Saldo.findByIdOptional(id);
-        if (saldo.isEmpty()) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
-        } else {
-            return saldo.get();
-        }
-    }
 
 }

@@ -8,17 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class ExtratoResponseDTO {
     public final SaldoDTO saldo;
     @JsonProperty("ultimas_transacoes")
-    public final List<Transacoes> transacoes;
+    public final List<Transacao> transacoes;
 
 
-    public ExtratoResponseDTO(SaldoDTO saldo, List<Transacoes> transacoes) {
-        this.saldo = saldo;
-        this.transacoes = transacoes.stream().limit(10).collect(Collectors.toList());
+    public ExtratoResponseDTO(Saldo saldo) {
+        this.saldo = new SaldoDTO(saldo);
+        this.transacoes = saldo.transacoes.stream().limit(10).collect(Collectors.toList());
     }
-
-    public static ExtratoResponseDTO of(Saldo saldo) {
-        return new ExtratoResponseDTO(SaldoDTO.of(saldo), saldo.transacoes);
-    }
-
     
 }
