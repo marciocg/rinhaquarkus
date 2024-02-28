@@ -26,9 +26,9 @@ public class ClientesResource {
 
     public ExtratoResponseDTO extrato(@PathParam("id") Integer id) {
         Saldo saldo = Saldo.getSaldoWithUltimasTransacoesById(BigInteger.valueOf(id));
-        // if (saldo == null) {
-        //     saldo = Saldo.getSaldoById(id.intValue());
-        // }
+        if (saldo == null) {
+            saldo = Saldo.getSaldoById(id.intValue());
+        }
 
         return new ExtratoResponseDTO(saldo);
     }
