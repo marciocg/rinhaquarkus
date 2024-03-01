@@ -12,10 +12,9 @@
 - **Podman** para construir os containers com a imagem nativa do quarkus
 - http://quay.io para publicar as imagens
 
-## Subir a aplicação
-### (é necessário ter podman-compose instalado)
+### Subir a aplicação (é necessário ter podman-compose instalado)
 ```shell script
 ./up.sh
 ```
-acessar http://localhost:9999
+#### acessar http://localhost:9999
 
