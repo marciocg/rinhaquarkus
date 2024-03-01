@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.temporal.Temporal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.quarkus.runtime.annotations.RegisterForReflection;
 
 
 @JsonPropertyOrder({ "total", "dataExtrato", "limite" })
