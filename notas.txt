@@ -1,6 +1,16 @@
+
 Links úteis que ajudaram a entender o funcionamento das coisas
 ==============================================================
 
+   public static Saldo fetchSaldoWithUltimasTransacoesById(Integer id) {
+        //se usar @Orderby, o range nao funciona; se retira, fica na ordem da pk id
+        PanacheQuery<Saldo> saldoQuery = 
+        Saldo.find("FROM Saldo s LEFT OUTER JOIN Transacao t ON s.id=t.saldo.id WHERE s.id = ?1", Sort.descending("transacoes.realizadaEm") id);
+        // Saldo.find("FROM Saldo s LEFT OUTER JOIN Transacao t ON s.id=t.saldo.id WHERE s.id = ?1", id);
+        saldoQuery.range(0, 9);
+        Saldo saldo = saldoQuery.firstResult();
+        return saldo;
+    }
 
 Gerar o "saldo" nos dados de retorno do json no jackson:
 https://stackoverflow.com/questions/36107564/jsonrootname-not-working
