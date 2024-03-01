@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 
-@RegisterForReflection
 @JsonPropertyOrder({ "total", "dataExtrato", "limite" })
 record SaldoDTO(Integer total, @JsonProperty("data_extrato") String dataExtrato, Integer limite) {
 

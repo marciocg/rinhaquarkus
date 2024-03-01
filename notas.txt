@@ -1,6 +1,4 @@
-
-Links úteis que ajudaram a entender o funcionamento das coisas
-==============================================================
+Tentativas frustradas de montar uma query de join e evitar 2 selects:
 
    public static Saldo fetchSaldoWithUltimasTransacoesById(Integer id) {
         //se usar @Orderby, o range nao funciona; se retira, fica na ordem da pk id
@@ -11,6 +9,12 @@ Links úteis que ajudaram a entender o funcionamento das coisas
         Saldo saldo = saldoQuery.firstResult();
         return saldo;
     }
+        Saldo saldo = Saldo.find("""
+            SELECT s FROM Saldo s LEFT OUTER JOIN Transacao tt ON s.id = tt.saldo.id  WHERE s.id = ?1 AND (SELECT IFNULL(ELEMENT(s.transacoes).id = ?1, ?2))""", id, Collections.EMPTY_LIST).firstResult();
+
+
+Links úteis que ajudaram a entender o funcionamento das coisas
+==============================================================
 
 Gerar o "saldo" nos dados de retorno do json no jackson:
 https://stackoverflow.com/questions/36107564/jsonrootname-not-working

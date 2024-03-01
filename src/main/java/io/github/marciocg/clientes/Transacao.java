@@ -44,18 +44,18 @@ public class Transacao extends PanacheEntity {
         return transacoesQuery;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Transacao))
-            return false;
-        return id != null && id.equals(((Transacao) o).id);
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (this == o)
+    //         return true;
+    //     if (!(o instanceof Transacao))
+    //         return false;
+    //     return id != null && id.equals(((Transacao) o).id);
+    // }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    // @Override
+    // public int hashCode() {
+    //     return getClass().hashCode();
+    // }
 
 }
