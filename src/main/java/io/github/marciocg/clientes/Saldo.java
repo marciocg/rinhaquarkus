@@ -52,7 +52,5 @@ public class Saldo extends PanacheEntity {
         saldoCliente.transacoes.add(novaTransacao);
         novaTransacao.saldo = saldoCliente;
         saldoCliente.persistAndFlush();
-        novaTransacao.persistAndFlush();
-
     }
 }

@@ -3,9 +3,9 @@ POST http://localhost:9999/clientes/1/transacoes HTTP/1.1
 content-type: application/json
 
 {
-    "valor": 21000,
-    "tipo": "d",
-    "descricao": "withdraw"
+    "valor": 50000,
+    "tipo": "c",
+    "descricao": "deposit"
 }
 
 
@@ -13,8 +13,8 @@ POST http://localhost:9999/clientes/1/transacoes HTTP/1.1
 content-type: application/json
 
 {
-    "valor": 50000,
-    "tipo": "c",
-    "descricao": "deposit"
+    "valor": 21000,
+    "tipo": "d",
+    "descricao": "withdraw"
 }
 

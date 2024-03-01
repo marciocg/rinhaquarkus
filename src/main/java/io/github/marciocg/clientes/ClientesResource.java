@@ -25,11 +25,8 @@ public class ClientesResource {
 
     public ExtratoResponseDTO extrato(@PathParam("id") Integer id) {
         Saldo saldo = Saldo.getSaldoWithUltimasTransacoesById(id);
-        if (saldo == null) {
-            saldo = Saldo.getSaldoById(id.intValue());
-        }
 
-        return new ExtratoResponseDTO(saldo);
+        return ExtratoResponseDTO.of(saldo);
     }
 
     @SuppressWarnings("resource")
@@ -42,14 +39,14 @@ public class ClientesResource {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
 
-        if ((transacaoRequest.descricao == null) || (transacaoRequest.valor == null)
-                || (transacaoRequest.tipo == null)) {
+        if ((transacaoRequest.descricao() == null) || (transacaoRequest.valor() == null)
+                || (transacaoRequest.tipo() == null)) {
             throw new WebApplicationException(Response.status(422).entity("Campo nulo").build());
         }
 
         Integer valor;
         try {
-            valor = Integer.parseInt(transacaoRequest.valor);
+            valor = Integer.parseInt(transacaoRequest.valor());
         } catch (Exception e) {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
@@ -60,23 +57,23 @@ public class ClientesResource {
                     Response.status(422).entity(valor.toString() + " Valor inválido").build());
         }
 
-        if ((transacaoRequest.descricao.isBlank()) || (transacaoRequest.descricao.isEmpty())
-                || (transacaoRequest.descricao.length()) > 10 || (transacaoRequest.descricao.length() == 0)) {
+        if ((transacaoRequest.descricao().isBlank()) || (transacaoRequest.descricao().isEmpty())
+                || (transacaoRequest.descricao().length()) > 10 || (transacaoRequest.descricao().length() == 0)) {
             throw new WebApplicationException(
                     Response.status(422).entity(valor.toString() + " Descrição inválida").build());
         }
-        int tam = transacaoRequest.descricao.length();
+        int tam = transacaoRequest.descricao().length();
 
         Saldo saldoCliente = Saldo.getSaldoByIdWriteLock(id);
 
-        if (transacaoRequest.tipo.equals("c")) {
+        if (transacaoRequest.tipo().equals("c")) {
             saldoCliente.total += valor;
-        } else if (transacaoRequest.tipo.equals("d")) {
+        } else if (transacaoRequest.tipo().equals("d")) {
             saldoCliente.total -= valor;
         } else {
             // tipo de transação não é débito nem crédito
             throw new WebApplicationException(
-                    Response.status(422).entity(transacaoRequest.tipo + " Tipo de transação inválido").build());
+                    Response.status(422).entity(transacaoRequest.tipo() + " Tipo de transação inválido").build());
         }
 
         if ((saldoCliente.total < 0) && (saldoCliente.total * -1 > saldoCliente.limite)) {
@@ -85,13 +82,12 @@ public class ClientesResource {
                     Response.status(422).entity(valor.toString() + " Saldo insuficiente").build());
         }
 
-
         Transacao novaTransacao = Panache.getEntityManager()
-                .merge(new Transacao(valor, transacaoRequest.tipo,
-                        transacaoRequest.descricao.substring(0, tam), Instant.now()));
+                .merge(new Transacao(valor, transacaoRequest.tipo(),
+                        transacaoRequest.descricao().substring(0, tam), Instant.now()));
 
         Saldo.atualizaSaldoComNovaTransacao(saldoCliente, novaTransacao);
-        return TransacaoResponseDTO.of(saldoCliente);
+        return new TransacaoResponseDTO(saldoCliente);
     }
 
 

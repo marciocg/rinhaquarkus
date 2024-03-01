@@ -5,18 +5,8 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
 @JsonPropertyOrder({ "limite", "saldo" })
-public final class TransacaoResponseDTO {
+record TransacaoResponseDTO (Integer limite, Integer saldo) {
 
-    public final Integer limite;
-    public final Integer saldo;
- 
-    public TransacaoResponseDTO(Integer limite, Integer saldo) {
-        this.limite = limite;
-        this.saldo = saldo;
-    }
-
-    public static TransacaoResponseDTO of(Saldo saldo) {
-        return new TransacaoResponseDTO(saldo.limite, saldo.total);
-    }
-
-}
+    public TransacaoResponseDTO(Saldo saldo) {
+        this(saldo.limite, saldo.total);
+    }};
