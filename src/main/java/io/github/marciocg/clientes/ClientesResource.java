@@ -2,6 +2,7 @@ package io.github.marciocg.clientes;
 
 import java.time.Instant;
 import io.quarkus.hibernate.orm.panache.Panache;
+import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -18,6 +19,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/clientes")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RunOnVirtualThread 
 public class ClientesResource {
 
     @GET
