@@ -19,12 +19,11 @@ import jakarta.ws.rs.core.Response;
 @Path("/clientes")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RunOnVirtualThread 
 public class ClientesResource {
 
     @GET
     @Path("/{id}/extrato")
-
+    @RunOnVirtualThread
     public ExtratoResponseDTO extrato(@PathParam("id") Integer id) {
         Saldo saldo = Saldo.getSaldoWithUltimasTransacoesById(id);
 
@@ -35,6 +34,7 @@ public class ClientesResource {
     @POST
     @Transactional
     @Path("/{id}/transacoes")
+    @RunOnVirtualThread
     public TransacaoResponseDTO transacao(@PathParam("id") Integer id, final TransacaoRequestDTO transacaoRequest) {
         if ((id < 1) || (id > 5)) {
             // if específico para tratar o caso da rinha
